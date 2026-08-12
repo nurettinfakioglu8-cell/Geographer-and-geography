@@ -1508,11 +1508,11 @@
     gap: 14px;
     margin-top: 4px;
   }
-  /* Masaüstü: timed-block yatay — timer sol, stats sağ, bayrak+yazı gizli */
+  /* Masaüstü: timed-block yatay — timer sol, bayrak+yazı ortada, stats sağ */
   #flag-timed-block { flex-direction: row !important; align-items: center !important; gap: 10px; flex: 1; }
   #flag-timed-top-row { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 10px; flex: 1; width: 100%; }
-  #flag-timed-right { display: none !important; }   /* masaüstünde bayrak+yazı gizli (flag-timed-bottom kullanılır) */
-  #flag-emoji-timed { display: none !important; }
+  #flag-timed-right { display: flex !important; align-items: center; gap: 10px; }
+  #flag-emoji-timed { display: block !important; }
   #flag-timed-stats-row { display: flex !important; flex-direction: row !important; justify-content: flex-end; gap: 16px; }
   #flag-timed-stats-row .stat-num { font-size: 16px; }
   #flag-timed-stats-row .stat-lbl { font-size: 7px; }
@@ -6244,9 +6244,6 @@ function setMode(mode) {
   } else if (mode === 'flag') {
     stopFlagTimer();
     document.getElementById('flag-timer-end').style.display = 'none';
-    // Başlangıç durumu: süresiz layout
-    document.getElementById('flag-timed-block').style.display = 'none';
-    document.getElementById('flag-free-block').style.display = 'flex';
     const _ftb=document.getElementById('flag-timed-bottom'); if(_ftb) _ftb.style.display='none';
     lp.setAttribute('style', 'display:none');
     qp.setAttribute('style', 'display:none');
@@ -6267,11 +6264,9 @@ function setMode(mode) {
     hideInfoMode();
     hidePhysicalMode();
     hideCityFuncMode();
-    quizCorrect = 0; quizWrong = 0; quizStreak = 0; quizMaxStreak = 0;
-    usedIds.clear();
-    waitingNext = false;
     updateQuizStats();
-    nextFlagQuestion();
+    // Başlangıç durumu: varsayılan olarak 10 dakikalık süreli mod açılsın
+    setFlagTimerMode(600);
   } else if (mode === 'tabu') {
     stopFlagTimer();
     clearInterval(tabuInterval);
